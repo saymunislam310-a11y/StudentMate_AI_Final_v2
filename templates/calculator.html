@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Scientific Calculator • StudentMate AI</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<style>
+.calculator-page{max-width:560px;margin:0 auto}
+.casio-wrap{background:#24282d;border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:14px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.calc-screen{background:#dfe7d7;color:#101510;border:8px solid #0f1114;border-radius:12px;padding:10px;min-height:94px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.55);font-family:"Courier New",monospace}
+.calc-small{font-size:12px;min-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.calc-main{font-size:23px;min-height:34px;display:flex;align-items:flex-end;justify-content:flex-end;overflow:hidden;white-space:nowrap}
+.calc-answer{font-size:18px;min-height:25px;text-align:right;overflow:hidden;white-space:nowrap}
+.calc-status{display:flex;justify-content:space-between;font-size:11px;opacity:.8;margin:7px 2px 8px}
+.calc-modes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:7px}
+.calc-modes button,.calc-key{border:1px solid rgba(255,255,255,.12);border-radius:10px;background:#31363c;color:#f5f7f8;cursor:pointer;min-height:42px;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.calc-modes button.active{background:#59616a}
+.calc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.calc-key{min-height:47px;font-size:15px}
+.calc-key.secondary{font-size:12px;color:#d8dde1;background:#2b3035}
+.calc-key.operator{background:#3d4349}
+.calc-key.equal{background:#55616a}
+.calc-key.danger{background:#4a3535}
+.calc-key.shift-on{outline:2px solid #a9c3d9}
+.calc-key.wide{grid-column:span 2}
+.calc-help{font-size:11px;opacity:.7;margin:10px 3px 0;line-height:1.4}
+@media(max-width:460px){.casio-wrap{padding:9px}.calc-key{min-height:43px;font-size:14px}.calc-key.secondary{font-size:11px}.calc-main{font-size:20px}}
+</style>
+</head>
+<body class="calculator-body">
+<div class="app-shell">
+<header class="topbar">
+  <div><p class="small-label">STUDENT TOOL</p><h2>Scientific Calculator</h2></div>
+  <a href="{{ url_for('profile') }}" class="avatar">S</a>
+</header>
+
+<main class="page-content calculator-page">
+<section class="casio-wrap" aria-label="Advanced scientific calculator">
+  <div class="calc-screen">
+    <div id="calcStatus" class="calc-small">DEG · NORM · M</div>
+    <div id="calcExpression" class="calc-main">0</div>
+    <div id="calcResult" class="calc-answer">0</div>
+  </div>
+
+  <div class="calc-status"><span id="angleLabel">DEG</span><span id="shiftLabel">SHIFT: OFF</span></div>
+
+  <div class="calc-modes">
+    <button type="button" data-angle="DEG" class="active">DEG</button>
+    <button type="button" data-angle="RAD">RAD</button>
+    <button type="button" data-angle="GRAD">GRAD</button>
+    <button type="button" data-mode="FIX">FIX</button>
+    <button type="button" data-mode="SCI">SCI</button>
+  </div>
+
+  <div class="calc-grid" id="calcGrid">
+    <button class="calc-key secondary" data-action="shift">SHIFT</button>
+    <button class="calc-key secondary" data-action="alpha">ALPHA</button>
+    <button class="calc-key secondary" data-action="memory-recall">RCL</button>
+    <button class="calc-key secondary" data-action="memory-clear">MC</button>
+    <button class="calc-key danger" data-action="clear">AC</button>
+
+    <button class="calc-key secondary" data-action="shiftable" data-normal="sin(" data-shift="asin(">sin</button>
+    <button class="calc-key secondary" data-action="shiftable" data-normal="cos(" data-shift="acos(">cos</button>
+    <button class="calc-key secondary" data-action="shiftable" data-normal="tan(" data-shift="atan(">tan</button>
+    <button class="calc-key secondary" data-action="shiftable" data-normal="log(" data-shift="pow10(">log</button>
+    <button class="calc-key secondary" data-action="shiftable" data-normal="ln(" data-shift="exp(">ln</button>
+
+    <button class="calc-key secondary" data-action="shiftable" data-normal="√(" data-shift="cbrt(">√</button>
+    <button class="calc-key secondary" data-action="shiftable" data-normal="^2" data-shift="^3">x²</button>
+    <button class="calc-key secondary" data-action="shiftable" data-normal="^" data-shift="root(">xʸ</button>
+    <button class="calc-key secondary" data-action="shiftable" data-normal="!" data-shift="%">x!</button>
+    <button class="calc-key secondary" data-action="shiftable" data-normal="1/" data-shift="Ans">x⁻¹</button>
+
+    <button class="calc-key" data-value="7">7</button>
+    <button class="calc-key" data-value="8">8</button>
+    <button class="calc-key" data-value="9">9</button>
+    <button class="calc-key operator" data-value="÷">÷</button>
+    <button class="calc-key secondary" data-action="back">⌫</button>
+
+    <button class="calc-key" data-value="4">4</button>
+    <button class="calc-key" data-value="5">5</button>
+    <button class="calc-key" data-value="6">6</button>
+    <button class="calc-key operator" data-value="×">×</button>
+    <button class="calc-key secondary" data-value="(">(</button>
+
+    <button class="calc-key" data-value="1">1</button>
+    <button class="calc-key" data-value="2">2</button>
+    <button class="calc-key" data-value="3">3</button>
+    <button class="calc-key operator" data-value="−">−</button>
+    <button class="calc-key secondary" data-value=")">)</button>
+
+    <button class="calc-key" data-value="0">0</button>
+    <button class="calc-key" data-value=".">.</button>
+    <button class="calc-key secondary" data-value="π">π</button>
+    <button class="calc-key secondary" data-value="e">e</button>
+    <button class="calc-key operator equal" data-action="equals">=</button>
+
+    <button class="calc-key secondary" data-action="shiftable" data-normal="Ans" data-shift="%">Ans</button>
+    <button class="calc-key secondary" data-action="shiftable" data-normal="exp(" data-shift="pow10(">eˣ</button>
+    <button class="calc-key secondary" data-action="shiftable" data-normal="%" data-shift="abs(">%</button>
+    <button class="calc-key secondary" data-action="sign">±</button>
+    <button class="calc-key secondary" data-action="memory-add">M+</button>
+
+    <button class="calc-key secondary" data-action="memory-sub">M−</button>
+    <button class="calc-key secondary" data-action="memory-store">STO</button>
+    <button class="calc-key secondary" data-action="reset-format">NORM</button>
+    <button class="calc-key secondary wide" data-action="copy">COPY RESULT</button>
+  </div>
+
+  <p class="calc-help">Advanced scientific functions, inverse trig via SHIFT, powers/roots, factorial, percentage, constants, memory, DEG/RAD/GRAD, FIX/SCI/NORM formatting, keyboard input and Ans history.</p>
+</section>
+</main>
+
+<nav class="bottom-nav">
+<a href="{{ url_for('home') }}"><span>⌂</span><small>Home</small></a>
+<a class="active" href="{{ url_for('study') }}"><span>📚</span><small>Study</small></a>
+<a href="{{ url_for('routine') }}"><span>⏰</span><small>Routine</small></a>
+<a href="{{ url_for('ai_helper') }}"><span>🤖</span><small>AI</small></a>
+<a href="{{ url_for('profile') }}"><span>👤</span><small>Profile</small></a>
+</nav>
+</div>
+<script src="{{ url_for('static', filename='js/calculator.js') }}"></script>
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

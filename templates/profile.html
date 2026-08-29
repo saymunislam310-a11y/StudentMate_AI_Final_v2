@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Profile • StudentMate AI</title>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+>
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+<header class="topbar">
+
+<div>
+
+<p class="small-label">
+    YOUR ACCOUNT
+</p>
+
+<h2>
+    Profile
+</h2>
+
+</div>
+
+</header>
+
+
+<main class="page-content">
+
+<section class="profile-hero">
+
+<div class="profile-avatar">
+    {{ user["name"][0]|upper }}
+</div>
+
+<h1>
+    {{ user["name"] }}
+</h1>
+
+<p>
+    {{ user["email"] }}
+</p>
+
+</section>
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+{% for category, message in messages %}
+
+<div class="alert {{ category }}">
+    {{ message }}
+</div>
+
+{% endfor %}
+
+{% endwith %}
+
+
+<section class="form-card">
+
+<h2>
+    Edit Profile
+</h2>
+
+<form
+    method="POST"
+>
+
+<label>
+    Name
+</label>
+
+<input
+    type="text"
+    name="name"
+    value="{{ user['name'] }}"
+    required
+>
+
+
+<label>
+    Class
+</label>
+
+<input
+    type="text"
+    name="class_name"
+    value="{{ user['class_name'] }}"
+    placeholder="e.g. Class 10"
+>
+
+
+<label>
+    School / College
+</label>
+
+<input
+    type="text"
+    name="school"
+    value="{{ user['school'] }}"
+    placeholder="Your school or college"
+>
+
+
+<label>
+    Bio
+</label>
+
+<textarea
+    name="bio"
+    rows="4"
+    placeholder="Tell us a little about yourself"
+>{{ user["bio"] }}</textarea>
+
+
+<button class="btn btn-primary full">
+    Save Profile
+</button>
+
+</form>
+
+</section>
+
+
+<div class="profile-links">
+
+<a href="{{ url_for('progress') }}">
+    <span>📊</span>
+    <strong>My Progress</strong>
+    <small>View study statistics</small>
+</a>
+
+<a href="{{ url_for('settings') }}">
+    <span>⚙️</span>
+    <strong>Settings</strong>
+    <small>Manage your preferences</small>
+</a>
+
+<a href="{{ url_for('logout') }}" class="danger-link">
+    <span>↪</span>
+    <strong>Log Out</strong>
+    <small>Sign out of your account</small>
+</a>
+
+</div>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+<a href="{{ url_for('home') }}">
+    <span>⌂</span>
+    <small>Home</small>
+</a>
+
+<a href="{{ url_for('study') }}">
+    <span>📚</span>
+    <small>Study</small>
+</a>
+
+<a href="{{ url_for('routine') }}">
+    <span>⏰</span>
+    <small>Routine</small>
+</a>
+
+<a href="{{ url_for('ai_helper') }}">
+    <span>🤖</span>
+    <small>AI</small>
+</a>
+
+<a class="active" href="{{ url_for('profile') }}">
+    <span>👤</span>
+    <small>Profile</small>
+</a>
+
+</nav>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

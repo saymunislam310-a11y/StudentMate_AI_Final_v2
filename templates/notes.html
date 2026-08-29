@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Notes • StudentMate AI</title>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+>
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+<header class="topbar">
+
+<div>
+    <p class="small-label">YOUR KNOWLEDGE</p>
+    <h2>Notes</h2>
+</div>
+
+<a href="{{ url_for('profile') }}" class="avatar">
+    S
+</a>
+
+</header>
+
+
+<main class="page-content">
+
+<section class="form-card">
+
+<h2>Create Note</h2>
+
+<form
+    method="POST"
+    action="{{ url_for('add_note') }}"
+>
+
+<label>Title</label>
+
+<input
+    type="text"
+    name="title"
+    placeholder="Note title"
+    required
+>
+
+<label>Subject</label>
+
+<input
+    type="text"
+    name="subject"
+    placeholder="e.g. Physics"
+>
+
+<label>Content</label>
+
+<textarea
+    name="content"
+    rows="7"
+    placeholder="Write your notes..."
+></textarea>
+
+<button class="btn btn-primary full">
+    Save Note
+</button>
+
+</form>
+
+</section>
+
+
+<section>
+
+<div class="section-heading">
+
+<h2>My Notes</h2>
+
+</div>
+
+
+<div class="notes-grid">
+
+{% if notes %}
+
+{% for note in notes %}
+
+<article class="note-card">
+
+<div class="note-top">
+
+<span>
+    {{ note["subject"] or "General" }}
+</span>
+
+<span class="note-card-actions">
+    <a class="item-action edit" href="{{ url_for('edit_note', note_id=note['id']) }}">Edit</a>
+    <a class="item-action delete" href="{{ url_for('delete_note', note_id=note['id']) }}" data-delete-confirm data-delete-type="Note" data-delete-name="{{ note['title']|e }}" data-delete-title="{{ note['subject'] or 'General'|e }}">Delete</a>
+</span>
+
+</div>
+
+<h3>
+    {{ note["title"] }}
+</h3>
+
+<p>
+    {{ note["content"] }}
+</p>
+
+</article>
+
+{% endfor %}
+
+{% else %}
+
+<div class="empty-state">
+    No notes yet.
+</div>
+
+{% endif %}
+
+</div>
+
+</section>
+
+
+
+<div class="delete-confirm-overlay" id="deleteConfirmOverlay" aria-hidden="true">
+  <div class="delete-confirm-box" role="dialog" aria-modal="true" aria-labelledby="deleteConfirmHeading">
+    <div class="delete-confirm-top" id="deleteConfirmHeading">Delete</div>
+    <div class="delete-confirm-name" id="deleteConfirmName"></div>
+    <div class="delete-confirm-title" id="deleteConfirmTitle"></div>
+    <p class="delete-confirm-question">Do you want to delete <strong id="deleteConfirmQuestionName"></strong>?</p>
+    <div class="delete-confirm-actions">
+      <button type="button" class="delete-confirm-cancel" id="deleteConfirmCancel">Cancel</button>
+      <a class="delete-confirm-delete" id="deleteConfirmDelete" href="#">Delete</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const overlay=document.getElementById('deleteConfirmOverlay');
+  const nameEl=document.getElementById('deleteConfirmName');
+  const titleEl=document.getElementById('deleteConfirmTitle');
+  const qName=document.getElementById('deleteConfirmQuestionName');
+  const deleteBtn=document.getElementById('deleteConfirmDelete');
+  const cancelBtn=document.getElementById('deleteConfirmCancel');
+  if(!overlay)return;
+  document.querySelectorAll('[data-delete-confirm]').forEach(function(link){
+    link.addEventListener('click',function(e){
+      e.preventDefault();
+      nameEl.textContent=this.dataset.deleteName || '';
+      titleEl.textContent=this.dataset.deleteTitle ? 'Title: '+this.dataset.deleteTitle : '';
+      qName.textContent=this.dataset.deleteName || 'this item';
+      deleteBtn.href=this.href;
+      overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
+    });
+  });
+  function close(){overlay.classList.remove('show');overlay.setAttribute('aria-hidden','true');}
+  cancelBtn.addEventListener('click',close);
+  overlay.addEventListener('click',function(e){if(e.target===overlay)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+<a href="{{ url_for('home') }}">
+    <span>⌂</span>
+    <small>Home</small>
+</a>
+
+<a href="{{ url_for('study') }}">
+    <span>📚</span>
+    <small>Study</small>
+</a>
+
+<a href="{{ url_for('routine') }}">
+    <span>⏰</span>
+    <small>Routine</small>
+</a>
+
+<a href="{{ url_for('ai_helper') }}">
+    <span>🤖</span>
+    <small>AI</small>
+</a>
+
+<a href="{{ url_for('profile') }}">
+    <span>👤</span>
+    <small>Profile</small>
+</a>
+
+</nav>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

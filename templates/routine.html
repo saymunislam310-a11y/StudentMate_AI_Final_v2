@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Routine • StudentMate AI</title>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+>
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+<header class="topbar">
+
+<div>
+    <p class="small-label">YOUR SCHEDULE</p>
+    <h2>Routine</h2>
+</div>
+
+<a href="{{ url_for('profile') }}" class="avatar">
+    S
+</a>
+
+</header>
+
+
+<main class="page-content">
+
+<section class="form-card">
+
+<h2>Add Routine</h2>
+
+<form
+    method="POST"
+    action="{{ url_for('add_routine') }}"
+>
+
+<label>Subject</label>
+
+<input
+    type="text"
+    name="subject"
+    placeholder="e.g. Mathematics"
+    required
+>
+
+<label>Day</label>
+
+<select name="day" required>
+
+<option value="">Select Day</option>
+<option>Monday</option>
+<option>Tuesday</option>
+<option>Wednesday</option>
+<option>Thursday</option>
+<option>Friday</option>
+<option>Saturday</option>
+<option>Sunday</option>
+
+</select>
+
+<label>Start Time</label>
+
+<input
+    type="time"
+    name="start_time"
+    required
+>
+
+<label>End Time</label>
+
+<input
+    type="time"
+    name="end_time"
+    required
+>
+
+<button class="btn btn-primary full">
+    Add to Routine
+</button>
+
+</form>
+
+</section>
+
+
+<section>
+
+<div class="section-heading">
+    <h2>My Routine</h2>
+</div>
+
+<div class="routine-list">
+
+{% if routines %}
+
+{% for item in routines %}
+
+<div class="routine-card">
+
+<div class="routine-time">
+
+<strong>
+    {{ item["start_time"] }}
+</strong>
+
+<span>
+    {{ item["end_time"] }}
+</span>
+
+</div>
+
+<div>
+
+<strong>
+    {{ item["subject"] }}
+</strong>
+
+<small>
+    {{ item["day"] }}
+</small>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div class="empty-state">
+    Your routine is empty.
+</div>
+
+{% endif %}
+
+</div>
+
+</section>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+<a href="{{ url_for('home') }}">
+    <span>⌂</span>
+    <small>Home</small>
+</a>
+
+<a href="{{ url_for('study') }}">
+    <span>📚</span>
+    <small>Study</small>
+</a>
+
+<a class="active" href="{{ url_for('routine') }}">
+    <span>⏰</span>
+    <small>Routine</small>
+</a>
+
+<a href="{{ url_for('ai_helper') }}">
+    <span>🤖</span>
+    <small>AI</small>
+</a>
+
+<a href="{{ url_for('profile') }}">
+    <span>👤</span>
+    <small>Profile</small>
+</a>
+
+</nav>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

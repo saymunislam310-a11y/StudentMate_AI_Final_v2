@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Progress • StudentMate AI</title>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+>
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+<header class="topbar">
+
+<div>
+
+<p class="small-label">
+    YOUR PERFORMANCE
+</p>
+
+<h2>
+    Progress
+</h2>
+
+</div>
+
+<a href="{{ url_for('profile') }}" class="avatar">
+    S
+</a>
+
+</header>
+
+
+<main class="page-content">
+
+<section class="progress-hero">
+
+<p class="small-label">
+    STUDY TIME
+</p>
+
+<h1>
+    {{ total_minutes }}
+    <span>minutes</span>
+</h1>
+
+<p>
+    Keep showing up. Small progress becomes big results.
+</p>
+
+</section>
+
+
+<section class="stats-grid">
+
+<div class="stat-card">
+
+<span>⏱️</span>
+
+<strong>
+    {{ total_minutes }}
+</strong>
+
+<small>
+    Study Minutes
+</small>
+
+</div>
+
+
+<div class="stat-card">
+
+<span>✅</span>
+
+<strong>
+    {{ completed_tasks }}
+</strong>
+
+<small>
+    Completed Tasks
+</small>
+
+</div>
+
+
+<div class="stat-card">
+
+<span>📋</span>
+
+<strong>
+    {{ total_tasks }}
+</strong>
+
+<small>
+    Total Tasks
+</small>
+
+</div>
+
+
+<div class="stat-card">
+
+<span>🎯</span>
+
+<strong>
+    {{ task_percentage }}%
+</strong>
+
+<small>
+    Task Progress
+</small>
+
+</div>
+
+</section>
+
+
+<section class="form-card">
+
+<div class="section-heading">
+
+<h2>
+    Task Completion
+</h2>
+
+<strong>
+    {{ task_percentage }}%
+</strong>
+
+</div>
+
+<div class="progress-bar">
+
+<div
+    class="progress-fill"
+    style="width: {{ task_percentage }}%"
+></div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+<a href="{{ url_for('home') }}">
+    <span>⌂</span>
+    <small>Home</small>
+</a>
+
+<a href="{{ url_for('study') }}">
+    <span>📚</span>
+    <small>Study</small>
+</a>
+
+<a href="{{ url_for('routine') }}">
+    <span>⏰</span>
+    <small>Routine</small>
+</a>
+
+<a href="{{ url_for('ai_helper') }}">
+    <span>🤖</span>
+    <small>AI</small>
+</a>
+
+<a href="{{ url_for('profile') }}">
+    <span>👤</span>
+    <small>Profile</small>
+</a>
+
+</nav>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

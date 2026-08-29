@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Settings • StudentMate AI</title>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+>
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+<header class="topbar">
+
+<div>
+
+<p class="small-label">
+    CUSTOMIZE
+</p>
+
+<h2>
+    Settings
+</h2>
+
+</div>
+
+</header>
+
+
+<main class="page-content">
+
+<section class="settings-list">
+
+<div class="setting-row">
+
+<div>
+
+<strong>
+    Notifications
+</strong>
+
+<small>
+    Study and task reminders
+</small>
+
+</div>
+
+<label class="switch">
+
+<input
+    type="checkbox"
+    checked
+>
+
+<span></span>
+
+</label>
+
+</div>
+
+
+<div class="setting-row">
+
+<div>
+
+<strong>
+    Study Reminders
+</strong>
+
+<small>
+    Get reminders for your study sessions
+</small>
+
+</div>
+
+<label class="switch">
+
+<input
+    type="checkbox"
+    checked
+>
+
+<span></span>
+
+</label>
+
+</div>
+
+
+<div class="setting-row">
+
+<div>
+
+<strong>
+    Dark Mode
+</strong>
+
+<small>
+    Use a dark, high-contrast interface at night
+</small>
+
+</div>
+
+<label class="switch">
+
+<input
+    id="darkModeSetting"
+    type="checkbox"
+>
+
+<span></span>
+
+</label>
+
+</div>
+
+
+<div class="setting-row">
+
+<div>
+
+<strong>
+    AI Language
+</strong>
+
+<small>
+    English + Bangla supported
+</small>
+
+</div>
+
+<span class="setting-value">
+    EN / বাংলা
+</span>
+
+</div>
+
+
+<div class="setting-row">
+
+<div>
+
+<strong>
+    Account
+</strong>
+
+<small>
+    {{ user["email"] }}
+</small>
+
+</div>
+
+</div>
+
+</section>
+
+
+<a
+    href="{{ url_for('logout') }}"
+    class="btn btn-danger full"
+>
+    Log Out
+</a>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+<a href="{{ url_for('home') }}">
+    <span>⌂</span>
+    <small>Home</small>
+</a>
+
+<a href="{{ url_for('study') }}">
+    <span>📚</span>
+    <small>Study</small>
+</a>
+
+<a href="{{ url_for('routine') }}">
+    <span>⏰</span>
+    <small>Routine</small>
+</a>
+
+<a href="{{ url_for('ai_helper') }}">
+    <span>🤖</span>
+    <small>AI</small>
+</a>
+
+<a class="active" href="{{ url_for('profile') }}">
+    <span>👤</span>
+    <small>Profile</small>
+</a>
+
+</nav>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

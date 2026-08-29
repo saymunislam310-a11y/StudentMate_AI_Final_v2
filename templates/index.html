@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>StudentMate AI</title>
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body class="landing-body">
+
+<div class="landing">
+
+    <div class="brand-mark">S</div>
+
+    <p class="eyebrow">SMART STUDY ASSISTANT</p>
+
+    <h1>
+        Study smarter.<br>
+        <span>Achieve more.</span>
+    </h1>
+
+    <p class="hero-text">
+        StudentMate AI brings your study tools,
+        routines, notes, tasks, exams and AI help
+        together in one simple place.
+    </p>
+
+    <div class="landing-actions">
+        <a href="{{ url_for('signup') }}" class="btn btn-primary">
+            Get Started
+        </a>
+
+        <a href="{{ url_for('login') }}" class="btn btn-secondary">
+            Sign In
+        </a>
+    </div>
+
+    <div class="feature-preview">
+
+        <div>
+            <span>📚</span>
+            <strong>Study</strong>
+            <small>Stay focused</small>
+        </div>
+
+        <div>
+            <span>🤖</span>
+            <strong>AI Helper</strong>
+            <small>Learn faster</small>
+        </div>
+
+        <div>
+            <span>📅</span>
+            <strong>Exams</strong>
+            <small>Never miss one</small>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

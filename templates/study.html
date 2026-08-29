@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study • StudentMate AI</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="study-body">
+<div class="app-shell">
+<header class="topbar">
+    <div><p class="small-label">FOCUS MODE</p><h2>Study</h2></div>
+    <a href="{{ url_for('profile') }}" class="avatar">S</a>
+</header>
+
+<main class="page-content study-page">
+<section class="study-hero">
+    <div>
+        <p class="small-label">SMART STUDY TIMER</p>
+        <h1>Focus. Learn. <span>Progress.</span></h1>
+        <p>25 minutes is ready by default. Need more time? Choose 45, 50, 60, 90, 120 minutes—or set your own.</p>
+    </div>
+    <div class="study-hero-icon">📖</div>
+</section>
+
+<section class="timer-card modern-timer">
+    <div class="timer-top">
+        <div><span class="timer-label">CURRENT SESSION</span><strong id="timerMode">25 minute focus</strong></div>
+        <div id="timerStatus" class="timer-status">Ready</div>
+    </div>
+    <div class="timer-ring" id="timerRing" aria-label="Study countdown">
+    <div class="timer-ring-inner">
+        <span class="timer-ring-label">TIME LEFT</span>
+        <div id="timerDisplay">25:00</div>
+        <small id="timerPercent">100% remaining</small>
+    </div>
+</div>
+    <div class="timer-presets">
+        <button class="timer-preset active" data-minutes="25">25 min</button>
+        <button class="timer-preset" data-minutes="45">45 min</button>
+        <button class="timer-preset" data-minutes="50">50 min</button>
+        <button class="timer-preset" data-minutes="60">1 hour</button>
+        <button class="timer-preset" data-minutes="90">1.5 hours</button>
+        <button class="timer-preset" data-minutes="120">2 hours</button>
+    </div>
+    <div class="custom-timer-row">
+        <label for="customMinutes">Custom minutes</label>
+        <input id="customMinutes" type="number" min="1" max="720" placeholder="e.g. 35">
+        <button class="btn btn-secondary" type="button" onclick="setCustomTimer()">Set</button>
+    </div>
+    <div class="timer-buttons">
+        <button id="startTimerBtn" class="btn btn-primary" onclick="startTimer()">▶ Start Focus</button>
+        <button class="btn btn-secondary" onclick="pauseTimer()">Ⅱ Pause</button>
+        <button class="btn btn-secondary" onclick="resetTimer()">↻ Reset</button>
+    </div>
+</section>
+
+<section class="study-tool-card">
+    <div>
+        <p class="small-label">STUDENT TOOL</p>
+        <h2>Scientific Calculator</h2>
+        <p>Calculate percentages, powers, roots, trigonometry and more without leaving StudentMate.</p>
+    </div>
+    <a class="btn btn-secondary" href="{{ url_for('calculator') }}">🧮 Open Calculator</a>
+</section>
+
+<section class="form-card study-log-card">
+<h2>Log Study Session</h2>
+<form method="POST" action="{{ url_for('add_study_session') }}">
+    <label>Subject</label>
+    <input type="text" name="subject" placeholder="e.g. Mathematics">
+    <label>Minutes Studied</label>
+    <input id="studyMinutes" type="number" name="minutes" min="1" placeholder="60" required>
+    <button class="btn btn-primary full">Save Session</button>
+</form>
+</section>
+
+<section>
+<div class="section-heading"><h2>Recent Sessions</h2></div>
+<div class="list-card">
+{% if sessions %}
+{% for item in sessions %}
+<div class="list-row">
+    <div class="study-icon">📚</div>
+    <div><strong>{{ item["subject"] or "Study" }}</strong><small>{{ item["minutes"] }} minutes • {{ item["study_date"] }}</small></div>
+</div>
+{% endfor %}
+{% else %}
+<div class="empty-state">Your study sessions will appear here.</div>
+{% endif %}
+</div>
+</section>
+</main>
+
+<nav class="bottom-nav">
+<a href="{{ url_for('home') }}"><span>⌂</span><small>Home</small></a>
+<a class="active" href="{{ url_for('study') }}"><span>📚</span><small>Study</small></a>
+<a href="{{ url_for('routine') }}"><span>⏰</span><small>Routine</small></a>
+<a href="{{ url_for('ai_helper') }}"><span>🤖</span><small>AI</small></a>
+<a href="{{ url_for('profile') }}"><span>👤</span><small>Profile</small></a>
+</nav>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

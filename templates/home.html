@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Home • StudentMate AI</title>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+>
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+<header class="topbar">
+
+    <div>
+        <p class="small-label">GOOD TO SEE YOU</p>
+
+        <h2>
+            {{ user["name"] }}
+        </h2>
+    </div>
+
+    <a
+        href="{{ url_for('profile') }}"
+        class="avatar"
+    >
+        {{ user["name"][0]|upper }}
+    </a>
+
+</header>
+
+
+<main class="page-content">
+
+    <section class="welcome-card">
+
+        <div>
+
+            <p class="small-label">
+                YOUR STUDY ASSISTANT
+            </p>
+
+            <h1>
+                Ready to learn?
+            </h1>
+
+            <p>
+                Keep your study life organized
+                and make progress every day.
+            </p>
+
+        </div>
+
+        <div class="welcome-icon">
+            🎓
+        </div>
+
+    </section>
+
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+            <span>📋</span>
+            <strong>{{ tasks_total }}</strong>
+            <small>Total Tasks</small>
+        </div>
+
+        <div class="stat-card">
+            <span>✅</span>
+            <strong>{{ tasks_completed }}</strong>
+            <small>Completed</small>
+        </div>
+
+        <div class="stat-card">
+            <span>📝</span>
+            <strong>{{ notes_count }}</strong>
+            <small>Notes</small>
+        </div>
+
+        <div class="stat-card">
+            <span>📅</span>
+            <strong>{{ exams_count }}</strong>
+            <small>Exams</small>
+        </div>
+
+    </section>
+
+
+    <section>
+
+        <div class="section-heading">
+
+            <h2>Quick Actions</h2>
+
+        </div>
+
+        <div class="quick-grid">
+
+            <a href="{{ url_for('study') }}" class="quick-card">
+                <span>📚</span>
+                <strong>Study</strong>
+                <small>Track your study time</small>
+            </a>
+
+            <a href="{{ url_for('routine') }}" class="quick-card">
+                <span>⏰</span>
+                <strong>Routine</strong>
+                <small>Manage your schedule</small>
+            </a>
+
+            <a href="{{ url_for('tasks') }}" class="quick-card">
+                <span>✅</span>
+                <strong>Tasks</strong>
+                <small>Manage your work</small>
+            </a>
+
+            <a href="{{ url_for('notes') }}" class="quick-card">
+                <span>📝</span>
+                <strong>Notes</strong>
+                <small>Save important notes</small>
+            </a>
+
+            <a href="{{ url_for('exams') }}" class="quick-card">
+                <span>📅</span>
+                <strong>Exams</strong>
+                <small>Track upcoming exams</small>
+            </a>
+
+            <a href="{{ url_for('calculator') }}" class="quick-card calculator-card">
+    <span>🧮</span>
+    <strong>Calculator</strong>
+    <small>Scientific calculator for homework</small>
+</a>
+
+            <a href="{{ url_for('ai_helper') }}" class="quick-card ai-card">
+                <span>🤖</span>
+                <strong>AI Helper</strong>
+                <small>Ask anything about learning</small>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <section>
+
+        <div class="section-heading">
+
+            <h2>Recent Tasks</h2>
+
+            <a href="{{ url_for('tasks') }}">
+                View All
+            </a>
+
+        </div>
+
+        <div class="list-card">
+
+            {% if recent_tasks %}
+
+                {% for task in recent_tasks %}
+
+                    <div class="list-row">
+
+                        <div class="task-check
+                            {% if task['completed'] %}
+                                done
+                            {% endif %}
+                        ">
+                            {% if task['completed'] %}
+                                ✓
+                            {% else %}
+                                ○
+                            {% endif %}
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                {{ task["title"] }}
+                            </strong>
+
+                            <small>
+                                {{ task["due_date"] or "No deadline" }}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state">
+                    No tasks yet. Create your first task.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <section>
+
+        <div class="section-heading">
+
+            <h2>Upcoming Exams</h2>
+
+            <a href="{{ url_for('exams') }}">
+                View All
+            </a>
+
+        </div>
+
+        <div class="list-card">
+
+            {% if upcoming_exams %}
+
+                {% for exam in upcoming_exams %}
+
+                    <div class="list-row">
+
+                        <div class="exam-icon">
+                            📅
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                {{ exam["subject"] }}
+                            </strong>
+
+                            <small>
+                                {{ exam["exam_name"] or "Exam" }}
+                                •
+                                {{ exam["exam_date"] }}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state">
+                    No upcoming exams added.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</main>
+
+
+{% include "_navigation.html" ignore missing %}
+
+<nav class="bottom-nav">
+
+    <a class="active" href="{{ url_for('home') }}">
+        <span>⌂</span>
+        <small>Home</small>
+    </a>
+
+    <a href="{{ url_for('study') }}">
+        <span>📚</span>
+        <small>Study</small>
+    </a>
+
+    <a href="{{ url_for('routine') }}">
+        <span>⏰</span>
+        <small>Routine</small>
+    </a>
+
+    <a href="{{ url_for('ai_helper') }}">
+        <span>🤖</span>
+        <small>AI</small>
+    </a>
+
+    <a href="{{ url_for('profile') }}">
+        <span>👤</span>
+        <small>Profile</small>
+    </a>
+
+</nav>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>
