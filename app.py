@@ -1242,6 +1242,7 @@ def ai_api():
         )
 
     # BACKUP: OpenAI.
+    gemini_exc = None
     try:
         reply = ask_openai(
             message,
